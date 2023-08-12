@@ -7,9 +7,8 @@ import { json } from "express"
 //GET
 
 const getRoles = async (req, res) => {
-    try {
-        const roles =  req.body.roles; 
-        const RolesDB = await RoleModel.find({}).exec();
+    try { 
+        const RolesDB = await RoleModel.find({}, 'role').exec();
         res.status(200).json(RolesDB);
     } catch (error) {
         console.log(error);
