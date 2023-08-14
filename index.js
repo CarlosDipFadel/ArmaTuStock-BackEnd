@@ -31,4 +31,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev")); 
 app.use(cors());
 
-app.use("/api", require("./src/routes/Routes"));
+app.use("/api/users", require("./src/routes/Users.Routes"));

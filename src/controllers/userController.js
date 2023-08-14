@@ -1,10 +1,9 @@
 import UserModel from "../models/user.model"
 import RoleModel from "../models/role.model"
 import bcrypt from "bcrypt"
-import { json } from "express"
+import jwt from "jsonwebtoken"
 
-
-//GET
+//Roles
 
 const getRoles = async (req, res) => {
     try { 
@@ -16,11 +15,16 @@ const getRoles = async (req, res) => {
     }
 }
 
-//POST
-
 const createRole = async (req, res) => {
     try {
         const role = req.body;
+
+        const RoleDB = await RoleModel.find({role: role.role}).exec();
+
+        if (role){
+            return res.status(200).json("Role registrado");
+        }
+
         const newRole = new RoleModel({role: role.role})
         await newRole.save();
         res.status(200).json(newRole); 
@@ -28,6 +32,8 @@ const createRole = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
+//Usuarios
 
 const register = async (req, res) => {
     try {
@@ -47,7 +53,7 @@ const register = async (req, res) => {
             telefono: user.telefono,
             direccion: user.direccion,
             codigoPostal: user.codigoPostal,
-            username: user.username,
+            userName: user.userName,
             password: hash
         })
         
@@ -65,10 +71,46 @@ const register = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
-  
+
+const login = async (req, res) => {
+    const user = req.body;
+
+    const userDB = await UserModel.findOne({
+        $or: [
+            {email: user.user},
+            {userName: user.user}
+        ]
+    })
+
+    if(!userDB) {
+        return res.status(404).send("El usuario y/o contraseña es incorrectos");
+    }
+
+    const match = await bcrypt.compare(user.password, userDB.password)
+    
+    if (!match) {
+        return res.status(401).send("El usuario y/o contraseña es incorrectos");
+    }
+
+    const token = jwt.sign(
+        {
+          id: userDB._id,
+          nombre: userDB.nombre,
+          apellido: userDB.apellido
+        },
+        process.env.SECRET_KEY, 
+        { expiresIn: "1D" } 
+    );
+
+    res.header("auth-token", token).json({
+        error: null,
+        data: { token }
+    });
+}
 
 module.exports = {
     getRoles, 
+    createRole,
     register,
-    createRole
+    login
 };

@@ -2,13 +2,14 @@ const express = require("express");
 import userController from "../controllers/userController"
 
 const router = express.Router();
-
-//GET
 router.get("/", (req, res)=>{res.send("Api ArmaTuStock")});
 
-//POST
-router.post("/getRoles", userController.getRoles);
+//Roles
+router.get("/getRoles", userController.getRoles);
 router.post("/createRole", userController.createRole);
+
+//Usuarios
 router.post("/register", userController.register);
+router.post("/login", userController.login);
 
 module.exports = router;
