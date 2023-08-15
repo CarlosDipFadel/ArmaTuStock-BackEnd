@@ -32,3 +32,4 @@ app.use(morgan("dev"));
 app.use(cors());
 
 app.use("/api", require("./src/routes/Routes"));
+app.use("/api/products", require("./src/routes/products.route"));
