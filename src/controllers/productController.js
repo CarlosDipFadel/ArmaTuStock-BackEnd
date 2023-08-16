@@ -1,7 +1,21 @@
 import ProductModel from "../models/product.model"
+import CategoryModel from "../models/category.model"
 
 const getProducts = (req, res) => {
     res.send("Return Product")
+}
+
+const createCategory = (req, res) => {
+    try {
+        const categoria = req.body;
+        const NewCategory = new CategoryModel({
+            descripcion: categoria.descripcion
+        })
+        NewCategory.save();
+        res.status(200).json(NewCategory)
+    } catch (error) {
+        res.status(404).json("error al cargar la contraseña")
+    }
 }
 
 const register = (req, res) =>{ 
@@ -24,5 +38,6 @@ const register = (req, res) =>{
 
 module.exports = {
     getProducts,
-    register
+    register,
+    createCategory
 };
