@@ -19,9 +19,9 @@ const createRole = async (req, res) => {
     try {
         const role = req.body;
 
-        const RoleDB = await RoleModel.find({role: role.role}).exec();
+        const RoleDB = await RoleModel.findOne({role: role.role}).exec();
 
-        if (role){
+        if (RoleDB){
             return res.status(200).json("Role registrado");
         }
 
