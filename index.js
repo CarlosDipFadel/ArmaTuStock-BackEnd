@@ -3,6 +3,7 @@ import "dotenv/config";
 import cors from "cors";
 import morgan from "morgan";
 import conectDB from "./src/database/db"
+import comprobacionJwt from "./src/middleware/comprobacionJwt";
 
 const app = express();
 
@@ -31,4 +32,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev")); 
 app.use(cors());
 
-app.use("/api/users", require("./src/routes/Users.Routes"));
+app.use("/api", require("./src/routes/Routes"));
+app.use("/api/users", comprobacionJwt, require("./src/routes/Users.Routes"));
