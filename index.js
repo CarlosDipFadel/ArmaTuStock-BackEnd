@@ -34,3 +34,4 @@ app.use(cors());
 
 app.use("/api", require("./src/routes/Routes"));
 app.use("/api/users", comprobacionJwt, require("./src/routes/Users.Routes"));
+app.use("/api/products", require("./src/routes/products.route"));

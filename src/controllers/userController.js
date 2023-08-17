@@ -117,7 +117,7 @@ const register = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const user = req.body.id;  
+        const user = req.body;  
         const userDB = await UserModel.findById({_id: user._id}).exec();
         if(userDB){
             userDB.nombre = user.nombre
