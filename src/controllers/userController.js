@@ -49,7 +49,7 @@ const login = async (req, res) => {
     console.log("USUARIO", userDB);
 
     if(!userDB) {
-        return res.status(404).send("El usuario y/o contraseña es incorrectos");
+        return res.status(401).send("El usuario y/o contraseña es incorrectos");
     }
 
     const match = await bcrypt.compare(user.password, userDB.password)
@@ -68,12 +68,12 @@ const login = async (req, res) => {
         { expiresIn: "1D" } 
     );
 
-    res.header("auth-token", token).json({
-        data: { 
+    res.header("auth-token", token).json(
+        { 
             token,
             userDB
         }
-    });
+    );
 }
 
 const register = async (req, res) => {
