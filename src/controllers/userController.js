@@ -115,6 +115,16 @@ const register = async (req, res) => {
     }
 }
 
+const getUser = async (req, res) => {
+    try {
+        const users = await UserModel.find().populate('roles', 'role'); // Utilizamos populate para traer los roles relacionados
+        
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ error: "Error en el servidor" });
+    }
+}
+
 const updateUser = async (req, res) => {
     try {
         const user = req.body;  
@@ -155,5 +165,6 @@ module.exports = {
     login,
     register,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUser
 };
