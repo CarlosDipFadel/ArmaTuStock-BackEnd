@@ -7,7 +7,7 @@ const userSchema = new Schema({
     email: String,
     telefono: Number,
     direccion: String,
-    codigoPosta: Number,
+    codigoPostal: Number,
     userName: String,
     password: String,
     roles: [{type: mongoose.Schema.Types.ObjectId, ref: 'role'}]

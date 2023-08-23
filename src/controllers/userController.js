@@ -149,6 +149,7 @@ const updateUser = async (req, res) => {
     }
 }
 
+
 const deleteUser = async (req, res) => {
     try {
         const id = req.body.id;  

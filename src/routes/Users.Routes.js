@@ -10,8 +10,8 @@ router.get("/getRoles", userController.getRoles);
 //Usuarios
 router.post("/register", userController.register);
 router.post("/update", userController.updateUser);
-router.post("/register", userController.deleteUser);
+router.delete("/delete", userController.deleteUser);
 
-router.get("/getUser", userController.getUser);
+router.get("/getUsers", userController.getUser);
 
 module.exports = router;
