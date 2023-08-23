@@ -12,6 +12,6 @@ router.post("/register", userController.register);
 router.post("/update", userController.updateUser);
 router.post("/register", userController.deleteUser);
 
-router.get("/getUser", userController.getUser);
+router.get("/getUsers", userController.getUsers);
 
 module.exports = router;

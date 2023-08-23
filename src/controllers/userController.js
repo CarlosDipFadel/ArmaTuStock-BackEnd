@@ -115,10 +115,9 @@ const register = async (req, res) => {
     }
 }
 
-const getUser = async (req, res) => {
+const getUsers = async (req, res) => {
     try {
-        const users = await UserModel.find().populate('roles', 'role'); // Utilizamos populate para traer los roles relacionados
-        
+        const users = await UserModel.find().populate('roles', 'role'); 
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ error: "Error en el servidor" });
@@ -129,6 +128,9 @@ const updateUser = async (req, res) => {
     try {
         const user = req.body;  
         const userDB = await UserModel.findById({_id: user._id}).exec();
+
+        const role = await RoleModel.find({role: {$in: user.roles}}, 'role').exec();
+
         if(userDB){
             userDB.nombre = user.nombre
             userDB.apellido = user.apellido
@@ -138,13 +140,14 @@ const updateUser = async (req, res) => {
             userDB.codigoPostal = user.codigoPostal
             userDB.userName = user.userName
             userDB.password = user.password
-
+            userDB.roles = [...role]
             await userDB.save();
-            res.status(200).json(userDB)
+            res.status(201).json("usuario registrado");
         }else{
             res.status(404).json({ error: "Usuario no encontrado" });
         }
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error: "Error en la base de datos" });
     }
 }
@@ -166,5 +169,5 @@ module.exports = {
     register,
     updateUser,
     deleteUser,
-    getUser
+    getUsers
 };
