@@ -140,8 +140,18 @@ const updateUser = async (req, res) => {
             userDB.codigoPostal = user.codigoPostal
             userDB.userName = user.userName
             userDB.password = user.password
-            userDB.roles = [...role]
+
+            let isNewRole = userDB.roles.map((role)=>{
+                return role._id
+            }) 
+
+            console.log(userDB.roles, 'isNewRole');
+            console.log(isNewRole, 'isNewRole');
+
+            //userDB.roles = [...role]
+
             await userDB.save();
+
             res.status(201).json("usuario registrado");
         }else{
             res.status(404).json({ error: "Usuario no encontrado" });
@@ -151,6 +161,7 @@ const updateUser = async (req, res) => {
         res.status(400).json({ error: "Error en la base de datos" });
     }
 }
+
 
 const deleteUser = async (req, res) => {
     try {

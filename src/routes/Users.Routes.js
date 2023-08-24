@@ -7,10 +7,10 @@ const router = express.Router();
 router.post("/createRole", userController.createRole);
 router.get("/getRoles", userController.getRoles);
 
-//Usuarios
+// //Usuarios
 router.post("/register", userController.register);
 router.post("/update", userController.updateUser);
-router.post("/register", userController.deleteUser);
+router.delete("/delete", userController.deleteUser);
 
 router.get("/getUsers", userController.getUsers);
 
